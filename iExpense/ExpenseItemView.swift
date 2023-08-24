@@ -10,14 +10,32 @@ import SwiftUI
 struct ExpenseItemView: View {
     let expenseItem: ExpenseItem
     
+    var severity: some View {
+        let color: Color
+        if expenseItem.amount < 10 {
+            color = .green
+        } else if expenseItem.amount < 100 {
+            color = .yellow
+        } else {
+            color = .red
+        }
+        
+        return color
+            .frame(width: 10, height: 10)
+            .clipShape(Circle())
+    }
+    
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text(expenseItem.name)
                     .font(.headline)
-                Text(expenseItem.type)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                HStack(spacing: 5) {
+                    severity
+                    Text(expenseItem.type)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
             }
             Spacer()
             Text(expenseItem.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
