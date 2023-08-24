@@ -14,13 +14,14 @@ struct ExpenseItemView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(expenseItem.name)
-                    .font(.title2)
+                    .font(.headline)
                 Text(expenseItem.type)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
             Spacer()
             Text(expenseItem.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                .font(.title3.bold())
+                .font(.headline)
         }
     }
 }
