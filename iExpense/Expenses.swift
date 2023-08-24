@@ -16,6 +16,9 @@ class Expenses: ObservableObject {
         }
     }
     
+    var businessItems: [ExpenseItem] { items.filter { $0.type == "Business" } }
+    var personalItems: [ExpenseItem] { items.filter { $0.type == "Personal" } }
+    
     init() {
         if let savedData = UserDefaults.standard.data(forKey: "items") {
             if let decoded = try? JSONDecoder().decode([ExpenseItem].self, from: savedData) {

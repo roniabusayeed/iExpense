@@ -10,8 +10,24 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var expenses = Expenses()
     
-    func removeItems(at offsets: IndexSet) {
-        expenses.items.remove(atOffsets: offsets)
+    func removeBusinessItems(at offsets: IndexSet) {
+        let businessItems = expenses.businessItems
+        for offset in offsets {
+            let itemID = businessItems[offset].id
+            expenses.items.removeAll(where: { item in
+                item.id == itemID
+            })
+        }
+    }
+    
+    func removePersonalItems(at offsets: IndexSet) {
+        let personalItems = expenses.personalItems
+        for offset in offsets {
+            let itemID = personalItems[offset].id
+            expenses.items.removeAll(where: { item in
+                item.id == itemID
+            })
+        }
     }
     
     @State private var showingAddView = false
@@ -19,10 +35,19 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(expenses.items) { item in
-                    ExpenseItemView(expenseItem: item)
+                Section {
+                    ForEach(expenses.businessItems) { item in
+                        ExpenseItemView(expenseItem: item)
+                    }
+                    .onDelete(perform: removeBusinessItems)
                 }
-                .onDelete(perform: removeItems)
+                
+                Section {
+                    ForEach(expenses.personalItems) { item in
+                        ExpenseItemView(expenseItem: item)
+                    }
+                    .onDelete(perform: removePersonalItems)
+                }
             }
             .navigationTitle("iExpense")
             .toolbar {
