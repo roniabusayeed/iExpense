@@ -8,8 +8,8 @@
 import Foundation
 
 
-struct ExpenseItem: Identifiable {
-    let id: UUID = UUID()
+struct ExpenseItem: Identifiable, Codable {
+    var id: UUID = UUID()
     
     let name: String
     let type: String
